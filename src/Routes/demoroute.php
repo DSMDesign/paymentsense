@@ -19,7 +19,6 @@ Route::group([
             '/payment-sense/transaction-information/{requestId}/{machineId}',
             'getTransactionInformation'
         )->name('paymentSense.transaction-information');
-
         // Reports
         Route::get(
             '/payment-sense/machine-total/{machineId}',

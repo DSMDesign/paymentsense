@@ -18,7 +18,9 @@ class PaymentSenseProvider extends ServiceProvider
         $this->loadViewsFrom(__DIR__ . '/views', 'payment-sense');
 
         // Load skeleton routes
-        $this->loadRoutesFrom(__DIR__ . '/Routes/demoroute.php');
+        if (config('paymentsense.in_demo') == true) {
+            $this->loadRoutesFrom(__DIR__ . '/Routes/demoroute.php');
+        }
 
         // Load Migrations
         $this->loadMigrationsFrom(__DIR__ . '/Database/Migrations');

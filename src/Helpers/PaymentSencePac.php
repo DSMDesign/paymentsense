@@ -12,8 +12,12 @@ class PaymentSencePac
 {
     public function __construct()
     {
+        // End point for the payment sence api
         $this->end_point = 'https://' . config('paymentsense.end_point');
+        // Api key in this case is a password for bais authentication
         $this->api_key   = config('paymentsense.api_key');
+        // User name
+        $this->api_user  = config('paymentsense.api_user');
     }
 
     /**
@@ -25,11 +29,11 @@ class PaymentSencePac
      */
     private function baseRequest()
     {
-        return Http::withBasicAuth('login test', $this->api_key);
+        return Http::withBasicAuth($this->api_user, $this->api_key);
     }
 
     /**
-     * This fuction will return all the data in the same format
+     * Return all the object Response in the same format
      *
      * @param Response $response
      *
