@@ -149,13 +149,14 @@ class PaymentSencePac
      * @param mixed $id
      *
      */
-    public function startMachineTotalRequest($tid)
+    public function startMachineTotalRequest($tid, $type = 'END_OF_DAY')
     {
         // Start the machine request so for the z index total and return the index
+        // Avaliable report types END_OF_DAY, BANKING, X_BALANCE, Z_BALANCE
         $request = $this->handleResponce(
             $this->baseRequest()
                 ->post($this->end_point . '/pac/terminals/' . $tid . '/reports', [
-                    'reportType' => 'END_OF_DAY',
+                    'reportType' => $type,
                 ])
         );
 
