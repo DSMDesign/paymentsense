@@ -124,7 +124,8 @@ class DemoPaymentSensePac extends Controller
             $machineRequest = $paymentSence->startMachineTotalRequest($machineId);
             return $machineRequest;
         });
-
+        // Wait 2 seconds to get the information
+        sleep(2);
         // If error we display the message
         if ($machineRequest['status'] == false) {
             dd($machineRequest['data']['messages'], 'error');
