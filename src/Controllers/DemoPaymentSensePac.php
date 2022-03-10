@@ -119,8 +119,12 @@ class DemoPaymentSensePac extends Controller
         // Start the helper class for the PAC
         $paymentSence   = new PaymentSencePac();
 
+        // Avaliable report types END_OF_DAY, BANKING, X_BALANCE, Z_BALANCE
+        $type = Request('END_OF_DAY') ?? 'END_OF_DAY';
+
         // We goin to cache the request for this machine for 20 minutes so we don't overload the request
-        $machineRequest = Cache::remember('machine_total' . $machineId, 1200, function () use ($paymentSence, $machineId) {
+        $machineRequest = Cache::remember('machine_total' . $machineId . $type, 1200, function ()
+        use ($paymentSence, $machineId, $type) {
             $machineRequest = $paymentSence->startMachineTotalRequest($machineId);
             return $machineRequest;
         });
