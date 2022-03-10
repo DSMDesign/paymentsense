@@ -12,7 +12,7 @@
     <div class="overflow-x-auto">
         <div
             class="min-w-screen min-h-screen bg-gray-100 flex items-center justify-center bg-gray-100 font-sans overflow-hidden">
-            <div class="w-full lg:w-5/6">
+            <div class="w-full ">
                 <div class="bg-white shadow-md rounded my-6">
                     <table class="min-w-max w-full table-auto">
                         <thead>
@@ -31,7 +31,7 @@
                                     <td class="py-3 px-6 text-left whitespace-nowrap">
                                         <div class="text-left">
                                             <!-- The button to open modal -->
-                                            <label for="my-modal{{ $item['tpi'] }}" class="btn modal-button">
+                                            <label for="my-modal{{ $item['tpi'] }}" class="btn btn-sm modal-button">
                                                 Check Capabilities
                                             </label>
 
@@ -73,8 +73,19 @@
                                         </div>
                                     </td>
                                     <td class="py-3 px-6 text-center">
-                                        <div class="flex items-center justify-center">
-                                            <p>{{ $item['location'] }}</p>
+
+                                        <!-- The button to open modal -->
+                                        <a href="#my-modal-location{{ $item['tpi'] }}" class="btn btn-sm">Location</a>
+                                        <!-- Put this part before </body> tag -->
+                                        <div class="modal text-white" id="my-modal-location{{ $item['tpi'] }}">
+                                            <div class="modal-box">
+                                                <p class="py-4">
+                                                    {{ $item['location'] }}
+                                                </p>
+                                                <div class="modal-action">
+                                                    <a href="#" class="btn">Close</a>
+                                                </div>
+                                            </div>
                                         </div>
                                     </td>
                                     <td class="py-3 px-6 text-center">
@@ -103,7 +114,7 @@
                                     <td class="py-3 px-6 text-center">
 
                                         <!-- The button to open modal -->
-                                        <label for="transaction{{ $item['tpi'] }}" class="btn modal-button">
+                                        <label for="transaction{{ $item['tpi'] }}" class="btn btn-sm modal-button">
                                             Start Transaction
                                         </label>
                                         <!-- Put this part before </body> tag -->
@@ -116,8 +127,7 @@
                                                 <h3 class="text-lg font-bold text-white">Type the transaction
                                                     information</h3>
                                                 <form action="{{ route('paymentSense.transaction-start') }}"
-                                                        class="form-control w-full text-white"
-                                                    method="POST">
+                                                    class="form-control w-full text-white" method="POST">
                                                     @csrf
                                                     <div>
                                                         <label class="label">
@@ -158,7 +168,7 @@
                                         {{-- Machine totals --}}
                                         <!-- The button to open modal -->
                                         <a href="{{ route('paymentSense.machine-total', $item['tpi']) }}"
-                                            class="btn modal-button">Machine Totals</a>
+                                            class="btn btn-sm modal-button">Machine Totals</a>
                                     </td>
                                 </tr>
                             @endforeach
