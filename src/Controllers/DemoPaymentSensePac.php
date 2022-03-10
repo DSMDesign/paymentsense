@@ -64,7 +64,7 @@ class DemoPaymentSensePac extends Controller
     }
 
     /**
-     * This fuction will get the transaction information
+     * This function will get the transaction information
      *
      * @param Request $request
      * @param mixed $id

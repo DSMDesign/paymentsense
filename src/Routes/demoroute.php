@@ -3,7 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use Dsm\PaymentSense\Controllers\DemoPaymentSensePac;
 
-// Standard
+// Demo routes ONLY FOR TESTING PURPOSES
 Route::group([
     'middleware' => ['web'],
 ], function () {

@@ -22,7 +22,7 @@ class PaymentSencePac
     }
 
     /**
-     * This fuction will be the base request to the PAC machines
+     * This function will be the base request to the PAC machines
      *
      * @param mixed $urlSection
      *
@@ -58,7 +58,7 @@ class PaymentSencePac
     }
 
     /**
-     * This Fuction will return all the api location avaliable PAC machines
+     * This function will return all the api location avaliable PAC machines
      *
      * @return Json [json]
      */
@@ -114,7 +114,7 @@ class PaymentSencePac
     }
 
     /**
-     * This Fuction will delete the transaction we have created
+     * This function will delete the transaction we have created
      *
      * @param mixed $tid
      * @param mixed $transactionSale
@@ -163,7 +163,7 @@ class PaymentSencePac
     }
 
     /**
-     * This fuction will return the total report for that machine based in the request
+     * This function will return the total report for that machine based in the request
      * @param mixed $tid
      * @param mixed $requestId
      *

@@ -2,7 +2,6 @@
 
 namespace Dsm\PaymentSense;
 
-use Illuminate\Support\Facades\Event;
 use Illuminate\Support\ServiceProvider;
 
 class PaymentSenseProvider extends ServiceProvider
@@ -14,10 +13,10 @@ class PaymentSenseProvider extends ServiceProvider
      */
     public function boot()
     {
-        // Load skeleton views
+        // Load views
         $this->loadViewsFrom(__DIR__ . '/views', 'payment-sense');
 
-        // Load skeleton routes
+        // Load routes
         if (config('paymentsense.in_demo') == true) {
             $this->loadRoutesFrom(__DIR__ . '/Routes/demoroute.php');
         }
