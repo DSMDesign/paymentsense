@@ -4,9 +4,11 @@ namespace Dsm\PaymentSense\Helpers;
 
 use Illuminate\Http\Client\Response;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Validation\ValidationException;
 
 /**
- * This Class will be use to manage the PAC machines using the payment sence api
+ * This Class will be use to manage the PAC machines using the payment sence API
+ * More information: https://docs.connect.paymentsense.cloud/rest/api
  */
 class PaymentSencePac
 {
@@ -37,7 +39,7 @@ class PaymentSencePac
      *
      * @param Response $response
      *
-     * @return [type]
+     * @return [json]
      */
     private function handleResponce(Response $response)
     {
@@ -118,7 +120,7 @@ class PaymentSencePac
      * @param mixed $transactionSale
      *
      */
-    public function deleteTransaction($tid, $requestId)
+    public function cancelTransaction($tid, $requestId)
     {
         return $this->handleResponce(
             $this->baseRequest()
@@ -147,18 +149,34 @@ class PaymentSencePac
      * @param mixed $id
      *
      */
-    public function getMachineEndOfDayTotal($id)
+    public function startMachineTotalRequest($tid)
     {
-        $requestId = $this->handleResponce(
+        // Start the machine request so for the z index total and return the index
+        $request = $this->handleResponce(
             $this->baseRequest()
-                ->post($this->end_point . '/pac/terminals/' . $id . '/reports', [
+                ->post($this->end_point . '/pac/terminals/' . $tid . '/reports', [
                     'reportType' => 'END_OF_DAY',
                 ])
         );
+
+        return $request;
+    }
+
+    /**
+     * This fuction will return the total report for that machine based in the request
+     * @param mixed $tid
+     * @param mixed $requestId
+     *
+     * @return Json [json]
+     */
+    public function getRequestTotalZindex($tid, $requestId)
+    {
+        // Get te machine total not that it takes some time to get the total so we will wait for a while
         $reportHistory = $this->handleResponce(
             $this->baseRequest()
-                ->get($this->end_point . '/pac/terminals/' . $id . '/reports/' . $requestId['data']['requestId'])
+                ->get($this->end_point . '/pac/terminals/' . $tid . '/reports/' . $requestId)
         );
-        dd($reportHistory);
+
+        return $reportHistory;
     }
 }

@@ -19,6 +19,12 @@ Route::group([
             '/payment-sense/transaction-information/{requestId}/{machineId}',
             'getTransactionInformation'
         )->name('paymentSense.transaction-information');
+        // Delete the transaction so we have a clear machine
+        Route::get(
+            '/payment-sense/transaction-cancel/{requestId}/{machineId}',
+            'cancelTransaction'
+        )->name('paymentSense.transaction-cancel');
+
         // Reports
         Route::get(
             '/payment-sense/machine-total/{machineId}',

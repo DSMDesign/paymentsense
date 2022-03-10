@@ -59,6 +59,13 @@
                         </div>
                     </div>
                     {{-- {{ dd($getTransactionInformation['data']['receiptLines']) }} --}}
+                    <a class="btn btn-error"
+                        href="{{ route('paymentSense.transaction-cancel', [
+                            'requestId' => $requestId,
+                            'machineId' => $machineId,
+                        ]) }}">Cancel
+                        Transaction</a>
+                    <a class="btn btn-info" href="{{ route('paymentSense.demo') }}">Return</a>
                 </div>
             </div>
         </div>

@@ -4,6 +4,7 @@ namespace Dsm\PaymentSense\Controllers;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Cache;
 use Dsm\PaymentSense\Helpers\PaymentSencePac;
 use Illuminate\Validation\ValidationException;
 
@@ -79,7 +80,30 @@ class DemoPaymentSensePac extends Controller
         if ($getTransactionInformation['status'] == false) {
             throw ValidationException::withMessages(['Machine id or Request id not valid.']);
         } else {
-            return view('payment-sense::content.transaction_info', compact('getTransactionInformation'));
+            return view('payment-sense::content.transaction_info', compact('getTransactionInformation', 'machineId', 'requestId'));
+        }
+    }
+
+    /**
+     * Cancel the transaction and redirect to the index page
+     *
+     * @param Request $request
+     * @param mixed $requestId
+     * @param mixed $machineId
+     *
+     * @return [type]
+     */
+    public function cancelTransaction(Request $request, $requestId, $machineId)
+    {
+        // Start the helper class for the PAC
+        $paymentSence = new PaymentSencePac();
+        $requestInfo  = $paymentSence->cancelTransaction($machineId, $requestId);
+
+        // If error we display the data
+        if ($requestInfo['status'] == false) {
+            dd($requestInfo, 'error');
+        } else {
+            return redirect()->route('paymentSense.demo');
         }
     }
 
@@ -93,8 +117,21 @@ class DemoPaymentSensePac extends Controller
     public function getMachineTotal(Request $request, $machineId)
     {
         // Start the helper class for the PAC
-        $paymentSence  = new PaymentSencePac();
-        $machineTotals = $paymentSence->getMachineEndOfDayTotal($machineId);
-        dd($machineTotals);
+        $paymentSence   = new PaymentSencePac();
+
+        // We goin to cache the request for this machine for 20 minutes so we don't overload the request
+        $machineRequest = Cache::remember('machine_total' . $machineId, 1200, function () use ($paymentSence, $machineId) {
+            $machineRequest = $paymentSence->startMachineTotalRequest($machineId);
+            return $machineRequest;
+        });
+
+        // If error we display the message
+        if ($machineRequest['status'] == false) {
+            dd($machineRequest['data']['messages'], 'error');
+        } else {
+            // If success we display the total
+            $machineTotals  = $paymentSence->getRequestTotalZindex($machineId, $machineRequest['data']['requestId']);
+            dd($machineTotals, 'success');
+        }
     }
 }

@@ -40,12 +40,15 @@
                                                 class="modal-toggle">
                                             <div class="modal">
                                                 <div class="modal-box">
-                                                    <div class="overflow-x-auto">
-                                                        <table class="table w-full">
+                                                    <div class="">
+                                                        <h3 class="text-lg font-bold text-white">
+                                                            Machine {{ $item['tpi'] }} Capabilities
+                                                        </h3>
+                                                        <table class="table table-zebra w-full">
                                                             <tbody>
                                                                 @foreach ($item['capabilities'] as $itemList)
                                                                     <tr>
-                                                                        <th class="text-white">
+                                                                        <th class="text-white text-center">
                                                                             {{ $itemList }}
                                                                         </th>
                                                                     </tr>
@@ -113,24 +116,38 @@
                                                 <h3 class="text-lg font-bold text-white">Type the transaction
                                                     information</h3>
                                                 <form action="{{ route('paymentSense.transaction-start') }}"
+                                                        class="form-control w-full text-white"
                                                     method="POST">
                                                     @csrf
-                                                    <div class="form-control w-full max-w-xs py-4 text-white">
+                                                    <div>
+                                                        <label class="label">
+                                                            <span class="label-text">Transaction Type</span>
+                                                        </label>
                                                         <input type="text" placeholder="Type here"
                                                             name="transactionType" value="SALE"
                                                             class="input input-bordered input-primary w-full max-w-xs">
+                                                        <label class="label">
+                                                            <span class="label-text">Amount</span>
+                                                        </label>
                                                         <input type="text" placeholder="Type here" name="amount"
                                                             value="100"
                                                             class="input input-bordered input-primary w-full max-w-xs">
+                                                        <label class="label">
+                                                            <span class="label-text">Amount Cashback</span>
+                                                        </label>
                                                         <input type="text" placeholder="Type here" name="amountCashback"
                                                             value="50"
                                                             class="input input-bordered input-primary w-full max-w-xs">
+                                                        <label class="label">
+                                                            <span class="label-text">Currency</span>
+                                                        </label>
                                                         <input type="text" placeholder="Type here" name="currency"
                                                             value="GBP"
                                                             class="input input-bordered input-primary w-full max-w-xs">
                                                         <input type="hidden" name="machine_id"
                                                             value="{{ $item['tpi'] }}">
-                                                        <button class="btn btn-primary" type="submit">
+
+                                                        <button class="btn btn-secondary w-full" type="submit">
                                                             Send
                                                         </button>
                                                     </div>
@@ -140,10 +157,8 @@
 
                                         {{-- Machine totals --}}
                                         <!-- The button to open modal -->
-                                        <a
-                                            href="{{ route('paymentSense.machine-total', $item['tpi']) }}"
-                                            class="btn modal-button"
-                                            >Machine Totals</a>
+                                        <a href="{{ route('paymentSense.machine-total', $item['tpi']) }}"
+                                            class="btn modal-button">Machine Totals</a>
                                     </td>
                                 </tr>
                             @endforeach
