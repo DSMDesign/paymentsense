@@ -24,8 +24,7 @@ Route::group([
             '/payment-sense/transaction-cancel/{requestId}/{machineId}',
             'cancelTransaction'
         )->name('paymentSense.transaction-cancel');
-
-        // Reports
+        // Z index Report
         Route::get(
             '/payment-sense/machine-total/{machineId}',
             'getMachineTotal'

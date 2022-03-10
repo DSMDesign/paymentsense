@@ -4,7 +4,6 @@ namespace Dsm\PaymentSense\Helpers;
 
 use Illuminate\Http\Client\Response;
 use Illuminate\Support\Facades\Http;
-use Illuminate\Validation\ValidationException;
 
 /**
  * This Class will be use to manage the PAC machines using the payment sence API
@@ -72,6 +71,7 @@ class PaymentSencePac
 
     /**
      * Return the specific PAC machine information
+     *
      * @param mixed $id
      *
      * @return Json [json]
