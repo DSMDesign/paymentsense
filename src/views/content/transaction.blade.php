@@ -13,7 +13,7 @@
         <div class="min-w-screen min-h-screen flex items-center justify-center font-sans overflow-hidden">
             <div class="card w-full bg-neutral text-neutral-content">
                 <div class="card-body items-center text-center">
-                    <h2 class="card-title">Transaction successfully created 👍!</h2>
+                    <h2 class="card-title">Transaction successfully created</h2>
                     <p>Transaction information.</p>
 
                     <div class="overflow-x-auto">

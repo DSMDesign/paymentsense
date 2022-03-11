@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Http;
  * This Class will be use to manage the PAC machines using the payment sence API
  * More information: https://docs.connect.paymentsense.cloud/rest/api
  */
-class PaymentSencePac
+class PaymentSensePac
 {
     public function __construct()
     {

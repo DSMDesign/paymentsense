@@ -5,7 +5,7 @@ namespace Dsm\PaymentSense\Controllers;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Cache;
-use Dsm\PaymentSense\Helpers\PaymentSencePac;
+use Dsm\PaymentSense\Helpers\PaymentSensePac;
 use Illuminate\Validation\ValidationException;
 
 /**
@@ -21,8 +21,8 @@ class DemoPaymentSensePac extends Controller
      */
     public function index()
     {
-        $paymentSence = new PaymentSencePac();
-        $getTerminals = $paymentSence->listPacTerminals();
+        $paymentSense = new PaymentSensePac();
+        $getTerminals = $paymentSense->listPacTerminals();
 
         return view('payment-sense::content.index', compact('getTerminals'));
     }
@@ -43,7 +43,7 @@ class DemoPaymentSensePac extends Controller
         ]);
 
         // Start the helper class for the PAC
-        $paymentSence = new PaymentSencePac();
+        $paymentSense = new PaymentSensePac();
         // Payload in the form field we goin to use to tell the machice what to do
         // More information please check https://docs.connect.paymentsense.cloud/rest/api
         $payload = [
@@ -53,7 +53,7 @@ class DemoPaymentSensePac extends Controller
             'currency'        => Request('currency')
         ];
         // Start the transaction and get the response so we can use it in the view
-        $transactionInformation = $paymentSence->startPacMachineTransaction(Request('machine_id'), $payload);
+        $transactionInformation = $paymentSense->startPacMachineTransaction(Request('machine_id'), $payload);
 
         if ($transactionInformation['status'] == false) {
             throw ValidationException::withMessages(['Machine id not valid or connection not valid']);
@@ -73,9 +73,9 @@ class DemoPaymentSensePac extends Controller
     public function getTransactionInformation(Request $request, $requestId, $machineId)
     {
         // Start the helper class for the PAC
-        $paymentSence = new PaymentSencePac();
+        $paymentSense = new PaymentSensePac();
         // Call the method to get the transaction information
-        $getTransactionInformation = $paymentSence->getTransactionStatus($machineId, $requestId);
+        $getTransactionInformation = $paymentSense->getTransactionStatus($machineId, $requestId);
 
         if ($getTransactionInformation['status'] == false) {
             throw ValidationException::withMessages(['Machine id or Request id not valid.']);
@@ -96,8 +96,8 @@ class DemoPaymentSensePac extends Controller
     public function cancelTransaction(Request $request, $requestId, $machineId)
     {
         // Start the helper class for the PAC
-        $paymentSence = new PaymentSencePac();
-        $requestInfo  = $paymentSence->cancelTransaction($machineId, $requestId);
+        $paymentSense = new PaymentSensePac();
+        $requestInfo  = $paymentSense->cancelTransaction($machineId, $requestId);
 
         // If error we display the data
         if ($requestInfo['status'] == false) {
@@ -117,15 +117,15 @@ class DemoPaymentSensePac extends Controller
     public function getMachineTotal(Request $request, $machineId)
     {
         // Start the helper class for the PAC
-        $paymentSence   = new PaymentSencePac();
+        $paymentSense   = new PaymentSensePac();
 
         // Avaliable report types END_OF_DAY, BANKING, X_BALANCE, Z_BALANCE
         $type = Request('END_OF_DAY') ?? 'END_OF_DAY';
 
         // We goin to cache the request for this machine for 20 minutes so we don't overload the request
         $machineRequest = Cache::remember('machine_total' . $machineId . $type, 1200, function ()
-        use ($paymentSence, $machineId, $type) {
-            $machineRequest = $paymentSence->startMachineTotalRequest($machineId);
+        use ($paymentSense, $machineId, $type) {
+            $machineRequest = $paymentSense->startMachineTotalRequest($machineId);
             return $machineRequest;
         });
         // Wait 2 seconds to get the information
@@ -135,7 +135,7 @@ class DemoPaymentSensePac extends Controller
             dd($machineRequest['data']['messages'], 'error');
         } else {
             // If success we display the total
-            $machineTotals  = $paymentSence->getRequestTotalZindex($machineId, $machineRequest['data']['requestId']);
+            $machineTotals  = $paymentSense->getRequestTotalZindex($machineId, $machineRequest['data']['requestId']);
             dd($machineTotals, 'success');
         }
     }
