@@ -126,8 +126,6 @@ class PaymentSensePac
      */
     public function cancelTransaction($tid, $requestId)
     {
-        dd($this->baseRequest()
-            ->delete($this->end_point . '/pac/terminals/' . $tid . '/transactions/' . $requestId));
         return $this->handleResponce(
             $this->baseRequest()
                 ->delete($this->end_point . '/pac/terminals/' . $tid . '/transactions/' . $requestId)
