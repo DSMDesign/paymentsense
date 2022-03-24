@@ -30,7 +30,11 @@ class PaymentSensePac
      */
     private function baseRequest()
     {
-        return Http::withBasicAuth($this->api_user, $this->api_key);
+        return Http::withHeaders([
+            'Installer-Id'      => config('paymentsense.house_id'),
+            'Software-House-Id' => config('paymentsense.api_user'),
+            'Accept'            => 'application/connect.v2+json'
+        ])->withBasicAuth($this->api_user, $this->api_key);
     }
 
     /**
@@ -122,6 +126,8 @@ class PaymentSensePac
      */
     public function cancelTransaction($tid, $requestId)
     {
+        dd($this->baseRequest()
+            ->delete($this->end_point . '/pac/terminals/' . $tid . '/transactions/' . $requestId));
         return $this->handleResponce(
             $this->baseRequest()
                 ->delete($this->end_point . '/pac/terminals/' . $tid . '/transactions/' . $requestId)
